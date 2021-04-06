@@ -3,6 +3,7 @@ package com.example.shoutout.db;
 import android.util.Log;
 
 import com.example.shoutout.dbo.Login;
+import com.example.shoutout.util.DatabaseUtil;
 import com.example.shoutout.util.DateTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -11,18 +12,16 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class LoginsRepository {
+public class LoginsRepository extends BaseFirestoreRepository {
 
     private static final String TAG = "LoginRepo";
 
-    private CollectionReference col;
-
     public LoginsRepository(CollectionReference col) {
-        this.col = col;
+        super(col);
     }
 
     public Optional<Login> get(UUID token) {
-        DocumentSnapshot result = col.document(token.toString()).get().getResult();
+        DocumentSnapshot result = getCollection().document(token.toString()).get().getResult();
         if (result.exists()) {
             return Optional.of(convert(result.toObject(LoginDBO.class)));
         }
@@ -30,7 +29,7 @@ public class LoginsRepository {
     }
 
     public Optional<Login> get(UUID userId, String userAgent) {
-        return col.whereEqualTo("userId", userId.toString())
+        return getCollection().whereEqualTo("userId", userId.toString())
                 .whereEqualTo("userAgent", userAgent)
                 .get().getResult().getDocuments()
                 .stream().findAny()
@@ -48,7 +47,7 @@ public class LoginsRepository {
     }
 
     public boolean loginAvailable(UUID userId, String userAgent) {
-        return col.whereEqualTo("userId", userId.toString())
+        return getCollection().whereEqualTo("userId", userId.toString())
                 .whereEqualTo("userAgent", userAgent)
                 .get().getResult().getDocuments().isEmpty();
     }
@@ -67,14 +66,14 @@ public class LoginsRepository {
                 LocalDateTime.now().plusDays(30)
         );
         LoginDBO dbo = new LoginDBO(login);
-        col.document(dbo.token).set(dbo)
+        getCollection().document(dbo.token).set(dbo)
                 .addOnSuccessListener(task -> Log.i(TAG, String.format("Login credentials successfully created: %s (%s)", userId, userAgent)))
                 .addOnFailureListener(e -> Log.w(TAG, String.format("Could not create login credentials for %s (%s)", userId, userAgent), e));
         return token;
     }
 
     public void delete(UUID token) {
-        col.document(token.toString()).delete()
+        getCollection().document(token.toString()).delete()
                 .addOnSuccessListener(task -> Log.i(TAG, String.format("Deleted login credentials for %s", token)))
                 .addOnFailureListener(e -> Log.w(TAG, "Could not delete login credentials", e));
     }
@@ -104,6 +103,15 @@ public class LoginsRepository {
                 DateTimeUtil.parseDateTime(login.created),
                 DateTimeUtil.parseDateTime(login.expires)
         );
+    }
+
+    private static LoginsRepository instance = null;
+
+    public static LoginsRepository getInstance() {
+        if (instance == null) {
+            instance = new LoginsRepository(DatabaseUtil.get().collection("logins"));
+        }
+        return instance;
     }
 
 }

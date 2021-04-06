@@ -3,6 +3,7 @@ package com.example.shoutout.db;
 import android.util.Log;
 
 import com.example.shoutout.dbo.User;
+import com.example.shoutout.util.DatabaseUtil;
 import com.example.shoutout.util.DateTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -14,14 +15,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class UsersRepository {
+public class UsersRepository extends BaseFirestoreRepository {
 
     private static final String TAG = "UserRepo";
 
-    private CollectionReference col;
-
     public UsersRepository(CollectionReference col) {
-        this.col = col;
+        super(col);
     }
 
     public UUID registerNewUser(User user) {
@@ -31,7 +30,7 @@ public class UsersRepository {
         UUID id = UUID.randomUUID();
         user.setId(id);
         UserDBO dbo = new UserDBO(user);
-        col.document(dbo.id).set(dbo)
+        getCollection().document(dbo.id).set(dbo)
                 .addOnSuccessListener(task -> {
                     Log.i(TAG, String.format("Successfully registered new user: %s (%s)", user.getUsername(), id));
                 })
@@ -45,7 +44,7 @@ public class UsersRepository {
         if (!isUsernameAvailable(newUsername)) {
             throw new IllegalArgumentException("Username is already taken: " + newUsername);
         }
-        col.document(id.toString())
+        getCollection().document(id.toString())
                 .update(
                         "username", newUsername,
                         "username_lc", newUsername.toLowerCase()
@@ -59,7 +58,7 @@ public class UsersRepository {
     }
 
     public void updatePassword(UUID id, String pwd) {
-        col.document(id.toString())
+        getCollection().document(id.toString())
                 .update("pwd", pwd)
                 .addOnSuccessListener(task -> {
                     Log.i(TAG, String.format("Password updated for %s", id));
@@ -77,12 +76,12 @@ public class UsersRepository {
 
     public boolean isUsernameAvailable(String username) {
         // can also do #getFromUsername(String).isPresent(), but this doesn't convert anything
-        return col.whereEqualTo("username_lc", username).get().getResult()
+        return getCollection().whereEqualTo("username_lc", username).get().getResult()
                 .getDocuments().isEmpty();
     }
 
     public Optional<User> get(UUID id) {
-        DocumentSnapshot result = col.document(id.toString()).get().getResult();
+        DocumentSnapshot result = getCollection().document(id.toString()).get().getResult();
         if (result.exists()) {
             return Optional.of(convert(result.toObject(UserDBO.class)));
         }
@@ -90,7 +89,7 @@ public class UsersRepository {
     }
 
     public Optional<User> getFromUsername(String username) {
-        return col.whereEqualTo("username_lc", username.toLowerCase())
+        return getCollection().whereEqualTo("username_lc", username.toLowerCase())
                 .get().getResult().getDocuments()
                 .stream().findAny()
                 .map(doc -> convert(doc.toObject(UserDBO.class)));
@@ -132,6 +131,15 @@ public class UsersRepository {
                 user.permissionLevel,
                 user.following.stream().map(UUID::fromString).collect(Collectors.toList())
         );
+    }
+
+    private static UsersRepository instance = null;
+
+    public static UsersRepository getInstance() {
+        if (instance == null) {
+            instance = new UsersRepository(DatabaseUtil.get().collection("users"));
+        }
+        return instance;
     }
 
 }

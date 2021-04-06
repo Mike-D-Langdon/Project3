@@ -3,6 +3,7 @@ package com.example.shoutout.db;
 import android.util.Log;
 
 import com.example.shoutout.dbo.Post;
+import com.example.shoutout.util.DatabaseUtil;
 import com.example.shoutout.util.DateTimeUtil;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -15,18 +16,16 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PostsRepository {
+public class PostsRepository extends BaseFirestoreRepository {
 
     private static final String TAG = "PostRepo";
 
-    private CollectionReference col;
-
     public PostsRepository(CollectionReference col) {
-        this.col = col;
+        super(col);
     }
 
     public Optional<Post> get(UUID id) {
-        DocumentSnapshot result = col.document(id.toString()).get().getResult();
+        DocumentSnapshot result = getCollection().document(id.toString()).get().getResult();
         if (result.exists()) {
             return Optional.of(convert(result.toObject(PostDBO.class)));
         }
@@ -37,18 +36,18 @@ public class PostsRepository {
         UUID id = UUID.randomUUID();
         Post post = new Post(id, parent, user, text, images, LocalDateTime.now(), 0, 0);
         PostDBO dbo = new PostDBO(post);
-        col.document(dbo.id).set(dbo)
+        getCollection().document(dbo.id).set(dbo)
                 .addOnSuccessListener(task -> Log.i(TAG, String.format("New post posted: id: %s, parent: %s, user: %s", id, post.getParent(), post.getUser())))
                 .addOnFailureListener(e -> Log.w(TAG, "Post could not be created", e));
     }
 
     public List<Post> getPostsFromUser(UUID userId, int limit, LocalDateTime after) {
-        return col.whereEqualTo("user", userId.toString()).orderBy("posted", Query.Direction.DESCENDING).startAfter(after).limit(limit)
+        return getCollection().whereEqualTo("user", userId.toString()).orderBy("posted", Query.Direction.DESCENDING).startAfter(after).limit(limit)
                 .get().getResult().toObjects(PostDBO.class).stream().map(PostsRepository::convert).collect(Collectors.toList());
     }
 
     public List<Post> getPostsFromUsers(List<UUID> users, int limit, LocalDateTime after) {
-        return col.whereIn("user", users.stream().map(UUID::toString).collect(Collectors.toList())).orderBy("likes", Query.Direction.DESCENDING).startAfter(after).limit(limit)
+        return getCollection().whereIn("user", users.stream().map(UUID::toString).collect(Collectors.toList())).orderBy("likes", Query.Direction.DESCENDING).startAfter(after).limit(limit)
                 .get().getResult().toObjects(PostDBO.class).stream().map(PostsRepository::convert).collect(Collectors.toList());
     }
 
@@ -90,6 +89,15 @@ public class PostsRepository {
                 post.likes,
                 post.comments
         );
+    }
+
+    private static PostsRepository instance = null;
+
+    public static PostsRepository getInstance() {
+        if (instance == null) {
+            instance = new PostsRepository(DatabaseUtil.get().collection("posts"));
+        }
+        return instance;
     }
 
 }
