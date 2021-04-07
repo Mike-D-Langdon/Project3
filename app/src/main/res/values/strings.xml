@@ -6,4 +6,9 @@
     <string name="reg_password">Password</string>
     <string name="reg_username">Username</string>
     <string name="sign_up">Sign Up</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="compose">Compose</string>
+    <string name="chat">Chat</string>
+    <string name="notifications">Notifications</string>
 </resources>
