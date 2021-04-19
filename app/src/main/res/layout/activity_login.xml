@@ -76,6 +76,7 @@
         android:layout_marginStart="159dp"
         android:layout_marginEnd="159dp"
         android:backgroundTint="@color/teal_700"
+        android:onClick="handle_signUp"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
