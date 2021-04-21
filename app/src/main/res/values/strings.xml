@@ -12,4 +12,11 @@
     <string name="chat">Chat</string>
     <string name="notifications">Notifications</string>
     <string name="login">Login</string>
+    <string name="avatar">Avatar</string>
+    <string name="gallery_preview">Gallery Preview</string>
+    <string name="gallery_count">Gallery Count</string>
+    <string name="like_button">Like Button</string>
+    <string name="comment_button">Comment Button</string>
+    <string name="share_button">Share Button</string>
+    <string name="logout">Logout</string>
 </resources>
