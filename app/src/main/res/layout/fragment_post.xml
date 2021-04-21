@@ -11,6 +11,7 @@
         android:id="@+id/image_post_avatar"
         android:layout_width="88dp"
         android:layout_height="88dp"
+        android:contentDescription="@string/avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
@@ -21,27 +22,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
-        android:text="John Smith"
         app:layout_constraintStart_toEndOf="@+id/image_post_avatar"
-        app:layout_constraintTop_toTopOf="@+id/image_post_avatar" />
+        app:layout_constraintTop_toTopOf="@+id/image_post_avatar"
+        tools:text="John Smith" />
 
     <TextView
         android:id="@+id/text_post_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="\@coolusername"
         app:layout_constraintStart_toStartOf="@+id/text_post_displayName"
-        app:layout_constraintTop_toBottomOf="@+id/text_post_displayName" />
+        app:layout_constraintTop_toBottomOf="@+id/text_post_displayName"
+        tools:text="\@coolusername" />
 
     <TextView
         android:id="@+id/text_post_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Probably a really really really long text post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_post_avatar" />
+        app:layout_constraintTop_toBottomOf="@+id/image_post_avatar"
+        tools:text="Probably a really really really long text post" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_post_gallery"
@@ -55,6 +56,7 @@
             android:id="@+id/image_post_galleryPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/gallery_preview"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +69,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
+            android:contentDescription="@string/gallery_count"
             android:src="@android:drawable/ic_menu_gallery"
             app:layout_constraintEnd_toEndOf="@+id/image_post_galleryPreview"
             app:layout_constraintTop_toTopOf="@+id/image_post_galleryPreview" />
@@ -76,10 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:text="100"
             app:layout_constraintBottom_toBottomOf="@+id/image_post_galleryCount"
             app:layout_constraintEnd_toStartOf="@+id/image_post_galleryCount"
-            app:layout_constraintTop_toTopOf="@+id/image_post_galleryCount" />
+            app:layout_constraintTop_toTopOf="@+id/image_post_galleryCount"
+            tools:text="100" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -95,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:contentDescription="@string/like_button"
             android:src="@drawable/ic_like"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/text_post_commentCount"
@@ -104,6 +108,7 @@
             android:id="@+id/button_post_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/comment_button"
             android:src="@drawable/ic_comment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -113,25 +118,26 @@
             android:id="@+id/text_post_commentCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
             app:layout_constraintBottom_toBottomOf="@+id/button_post_comment"
             app:layout_constraintEnd_toStartOf="@+id/button_post_comment"
-            app:layout_constraintTop_toTopOf="@+id/button_post_comment" />
+            app:layout_constraintTop_toTopOf="@+id/button_post_comment"
+            tools:text="100" />
 
         <TextView
             android:id="@+id/text_post_likeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
             app:layout_constraintBottom_toBottomOf="@+id/button_like"
             app:layout_constraintEnd_toStartOf="@+id/button_like"
-            app:layout_constraintTop_toTopOf="@+id/button_like" />
+            app:layout_constraintTop_toTopOf="@+id/button_like"
+            tools:text="100" />
 
         <ImageButton
             android:id="@+id/button_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:contentDescription="@string/share_button"
             android:src="@drawable/ic_share"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/text_post_likeCount"
