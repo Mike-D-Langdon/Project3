@@ -43,5 +43,13 @@ public class SignUp extends AppCompatActivity{
                 user.setPwd(et_password.getText().toString());
             }
         });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"Cancel button clicked");
+                finish();
+            }
+        });
     }
 }
