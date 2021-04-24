@@ -86,14 +86,6 @@ public class SignUp extends AppCompatActivity {
             setResult(RESULT_CANCELED, intent);
             finish();
         });
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG,"Cancel button clicked");
-                finish();
-            }
-        });
     }
 
 }

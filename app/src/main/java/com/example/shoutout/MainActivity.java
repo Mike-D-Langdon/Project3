@@ -1,12 +1,13 @@
 package com.example.shoutout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shoutout.activity.fragment.PostFragment;
-import com.example.shoutout.db.UsersRepository;
+import com.example.shoutout.db.ImagesRepository;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -42,10 +43,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void debug_addPost(View view) {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.layout_timeline_linear, PostFragment.newInstance("https://i.imgur.com/GZQKZ9N.png", "Hello!", "mycoolusername", "whaddup youtube gang its ya boi", "https://i.imgur.com/5oc6cPv.jpg", rand.nextInt(10), rand.nextInt(100), rand.nextInt(100)), UUID.randomUUID().toString())
-                .addToBackStack(null)
-                .commit();
+        ImagesRepository.getInstance().getUri("1920x1080test.jpg").addOnSuccessListener(testBg -> {
+            ImagesRepository.getInstance().getUri("avatartest.png").addOnSuccessListener(avatar -> {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.layout_timeline_linear, PostFragment.newInstance(avatar.toString(), "Hello!", "mycoolusername", "whaddup youtube gang its ya boi", testBg.toString(), rand.nextInt(10), rand.nextInt(100), rand.nextInt(100)), UUID.randomUUID().toString())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        });
     }
 
 }
