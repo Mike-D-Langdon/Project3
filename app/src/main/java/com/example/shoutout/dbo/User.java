@@ -1,40 +1,52 @@
 package com.example.shoutout.dbo;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class User {
 
-    private UUID id;
+    private String id;
     private String username;
-    private String pwd;
+    private String email;
+    private String displayName;
     private String biography;
-    private LocalDate birthday;
-    private LocalDateTime created;
+    private Date created;
+    private Date birthday;
     private int permissionLevel;
-    private List<UUID> following;
+    private List<String> following;
+    private List<String> likes;
+    private List<String> followers;
 
-    public User(UUID id, String username, String pwd, String biography, LocalDate birthday, LocalDateTime created, int permissionLevel, List<UUID> following) {
+    public User(String id, String username, String email, String displayName, String biography,
+                Date created, Date birthday, int permissionLevel, List<String> following,
+                List<String> likes, List<String> followers) {
         this.id = id;
         this.username = username;
-        this.pwd = pwd;
+        this.email = email;
+        this.displayName = displayName;
         this.biography = biography;
-        this.birthday = birthday;
         this.created = created;
+        this.birthday = birthday;
         this.permissionLevel = permissionLevel;
         this.following = following;
+        this.likes = likes;
+        this.followers = followers;
+    }
+
+    public User(String id, String username, String email) {
+        this(id, username, email, username, "", new Date(), null, 0, Collections.emptyList(),
+                Collections.emptyList(), Collections.emptyList());
     }
 
     public User() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,12 +58,20 @@ public class User {
         this.username = username;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getBiography() {
@@ -62,12 +82,20 @@ public class User {
         this.biography = biography;
     }
 
-    public LocalDateTime getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public int getPermissionLevel() {
@@ -78,19 +106,27 @@ public class User {
         this.permissionLevel = permissionLevel;
     }
 
-    public List<UUID> getFollowing() {
+    public List<String> getFollowing() {
         return following;
     }
 
-    public void setFollowing(List<UUID> following) {
+    public void setFollowing(List<String> following) {
         this.following = following;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
+    public List<String> getLikes() {
+        return likes;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+    public void setLikes(List<String> likes) {
+        this.likes = likes;
+    }
+
+    public List<String> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<String> followers) {
+        this.followers = followers;
     }
 }

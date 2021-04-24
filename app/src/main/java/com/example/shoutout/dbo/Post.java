@@ -1,21 +1,25 @@
 package com.example.shoutout.dbo;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class Post {
 
-    private UUID id;
-    private UUID parent;
-    private UUID user;
+    @Exclude
+    private String id;
+    private String parent;
+    private String user;
     private String text;
-    private List<UUID> images;
-    private LocalDateTime posted;
+    private List<String> images;
+    private Date posted;
     private int likes;
     private int comments;
 
-    public Post(UUID id, UUID parent, UUID user, String text, List<UUID> images, LocalDateTime posted, int likes, int comments) {
+    public Post(String parent, String user, String text, List<String> images, Date posted, int likes, int comments) {
         this.id = id;
         this.parent = parent;
         this.user = user;
@@ -29,27 +33,27 @@ public class Post {
     public Post() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public UUID getParent() {
+    public String getParent() {
         return parent;
     }
 
-    public void setParent(UUID parent) {
+    public void setParent(String parent) {
         this.parent = parent;
     }
 
-    public UUID getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(UUID user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
@@ -61,19 +65,19 @@ public class Post {
         this.text = text;
     }
 
-    public List<UUID> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<UUID> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 
-    public LocalDateTime getPosted() {
+    public Date getPosted() {
         return posted;
     }
 
-    public void setPosted(LocalDateTime posted) {
+    public void setPosted(Date posted) {
         this.posted = posted;
     }
 
