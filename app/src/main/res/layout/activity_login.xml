@@ -78,6 +78,7 @@
         android:backgroundTint="@color/teal_700"
         android:onClick="handle_signUp"
         android:text="@string/sign_up"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
