@@ -35,6 +35,19 @@ public class ImagesRepository {
         });
     }
 
+    public Task<String> upload(Uri uri) {
+        final String randId = UID.generate();
+        final String extension = StringUtil.getFileNameExtension(uri.getLastPathSegment());
+        final String path = randId + extension;
+        return ref.child(path).putFile(uri).continueWith(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "Uploaded image: " + path);
+                return path;
+            }
+            return null;
+        });
+    }
+
     public Task<Uri> getUri(String fullPath) {
         return ref.child(fullPath).getDownloadUrl();
     }

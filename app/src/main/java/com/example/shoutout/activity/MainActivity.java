@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Random rand;
 
+    private Button btn_debug_createPost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        btn_debug_createPost = findViewById(R.id.button_main_debugCreatePost);
+        btn_debug_createPost.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CreatePostActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     @Override

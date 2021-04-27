@@ -21,4 +21,7 @@
     <string name="logout">Logout</string>
     <string name="ui_or">or</string>
     <string name="register_new">Register new user</string>
+    <string name="createPost_header">Create new post</string>
+    <string name="createPost_addImage">Add image</string>
+    <string name="createPost_post">Post</string>
 </resources>

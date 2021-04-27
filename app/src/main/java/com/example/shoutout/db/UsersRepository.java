@@ -194,19 +194,19 @@ public class UsersRepository extends BaseFirestoreRepository {
     }
 
     private static class UserDbo {
-        String username;
-        String username_lc;
-        String email;
-        String email_lc;
-        String displayName;
-        String displayName_lc;
-        String biography;
-        Date created;
-        Date birthday;
-        int permissionLevel;
-        List<String> following;
-        List<String> likes;
-        List<String> followers;
+        public String username;
+        public String username_lc;
+        public String email;
+        public String email_lc;
+        public String displayName;
+        public String displayName_lc;
+        public String biography;
+        public Date created;
+        public Date birthday;
+        public int permissionLevel;
+        public List<String> following;
+        public List<String> likes;
+        public List<String> followers;
 
         public UserDbo(User user) {
             username = user.getUsername();
@@ -222,6 +222,8 @@ public class UsersRepository extends BaseFirestoreRepository {
             following = user.getFollowing();
             likes = user.getLikes();
             followers = user.getFollowers();
+        }
+        public UserDbo() {
         }
     }
 

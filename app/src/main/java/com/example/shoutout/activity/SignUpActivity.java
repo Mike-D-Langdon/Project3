@@ -46,8 +46,11 @@ public class SignUpActivity extends AppCompatActivity {
 
             UsersRepository.getInstance().isUsernameAvailable(username).addOnSuccessListener(usernameAvailable -> {
                 if (usernameAvailable) {
+                    Log.d(TAG, "Username available for: " + username);
                     UsersRepository.getInstance().isEmailAvailable(email).addOnSuccessListener(emailAvailable -> {
                         if (emailAvailable) {
+                            Log.d(TAG, "Email available for: " + email);
+                            Log.d(TAG, "Signing up...");
                             FirebaseAuth.getInstance()
                                     .createUserWithEmailAndPassword(email, password)
                                     .addOnCompleteListener(createTask -> {
@@ -62,11 +65,11 @@ public class SignUpActivity extends AppCompatActivity {
                                                 if (regTask.isSuccessful()) {
                                                     Log.d(TAG, "User officially registered: " + result.getUser().getUid() + ", " + username + ", " + email);
                                                 } else {
-                                                    Log.w(TAG, "User could not be registered!");
+                                                    Log.w(TAG, "User could not be registered!", regTask.getException());
                                                 }
                                             });
                                         } else {
-                                            Log.w(TAG, "User not created!");
+                                            Log.w(TAG, "User not created!", createTask.getException());
                                             intent.putExtra(EXTRA_REGISTERED, false);
                                         }
                                         setResult(RESULT_OK, intent);

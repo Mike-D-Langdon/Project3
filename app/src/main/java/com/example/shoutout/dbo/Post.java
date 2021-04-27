@@ -2,14 +2,11 @@ package com.example.shoutout.dbo;
 
 import com.google.firebase.firestore.Exclude;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class Post {
 
-    @Exclude
     private String id;
     private String parent;
     private String user;
@@ -33,10 +30,12 @@ public class Post {
     public Post() {
     }
 
+    @Exclude
     public String getId() {
         return id;
     }
 
+    @Exclude
     public void setId(String id) {
         this.id = id;
     }
