@@ -19,4 +19,6 @@
     <string name="comment_button">Comment Button</string>
     <string name="share_button">Share Button</string>
     <string name="logout">Logout</string>
+    <string name="ui_or">or</string>
+    <string name="register_new">Register new user</string>
 </resources>

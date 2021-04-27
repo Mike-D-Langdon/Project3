@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="textsize_displayName">18sp</dimen>
+    <dimen name="textsize_username">16sp</dimen>
+    <dimen name="imgsize_avatar">88dp</dimen>
+    <dimen name="padding_postText">5sp</dimen>
+    <dimen name="imgsize_galleryCount">50dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+</resources>

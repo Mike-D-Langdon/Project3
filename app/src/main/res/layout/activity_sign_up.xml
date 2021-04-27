@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
@@ -10,7 +9,7 @@
     app:layout_constrainedWidth="true">
 
     <TextView
-        android:id="@+id/text_app_register"
+        android:id="@+id/text_login_appName"
         android:layout_width="148dp"
         android:layout_height="48dp"
         android:layout_marginTop="95dp"
@@ -27,10 +26,6 @@
         android:id="@+id/reg_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         app:layout_constraintBottom_toTopOf="@+id/reg_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,11 +35,12 @@
             android:id="@+id/edit_login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:inputType="text"
             android:hint="@string/reg_username" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,17 +50,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_register">
+        app:layout_constraintTop_toBottomOf="@+id/text_signup_register">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="61dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:inputType="textEmailAddress"
             android:hint="@string/reg_email" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +70,7 @@
         android:id="@+id/reg_password"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_username">
@@ -82,19 +79,20 @@
             android:id="@+id/edit_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:inputType="textPassword"
             android:hint="@string/reg_password" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
-        android:id="@+id/button_signup"
+        android:id="@+id/button_signup_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/margin_medium"
         android:backgroundTint="@color/teal_700"
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,30 +100,27 @@
         app:layout_constraintTop_toBottomOf="@+id/reg_password" />
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/button_signup_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="152dp"
+        android:layout_marginTop="@dimen/margin_medium"
         android:backgroundTint="@color/teal_700"
         android:text="@android:string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_signup"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button_signup_register" />
 
     <TextView
-        android:id="@+id/text_register"
+        android:id="@+id/text_signup_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_weight="1"
-        android:text="Register new user"
+        android:text="@string/register_new"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/reg_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_app_register" />
+        app:layout_constraintTop_toBottomOf="@+id/text_login_appName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

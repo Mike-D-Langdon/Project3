@@ -1,4 +1,4 @@
-package com.example.shoutout;
+package com.example.shoutout.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,20 +9,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.shoutout.R;
 import com.example.shoutout.db.UsersRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
+
+    private  static final String TAG = SignUpActivity.class.getSimpleName();
 
     public static final String EXTRA_REGISTERED = "registered";
 
-    public static String TAG = "SignUp";
-    EditText et_email;
-    EditText et_username;
-    EditText et_password;
-    Button btn_sign_up;
-    Button btn_cancel;
+    private Button btn_signUp;
+    private Button btn_cancel;
+    private EditText et_username;
+    private EditText et_email;
+    private EditText et_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,10 @@ public class SignUp extends AppCompatActivity {
         et_email = findViewById(R.id.edit_login_email);
         et_username = findViewById(R.id.edit_login_username);
         et_password = findViewById(R.id.edit_login_password);
-        btn_sign_up = findViewById(R.id.button_signup);
-        btn_cancel = findViewById(R.id.cancel);
+        btn_signUp = findViewById(R.id.button_signup_register);
+        btn_cancel = findViewById(R.id.button_signup_cancel);
 
-        btn_sign_up.setOnClickListener(v -> {
+        btn_signUp.setOnClickListener(v -> {
             Log.i(TAG, "onClick sign up button");
 
             final String username = et_username.getText().toString();
@@ -79,6 +81,7 @@ public class SignUp extends AppCompatActivity {
                 }
             });
         });
+
         btn_cancel.setOnClickListener(v -> {
             Log.d(TAG, "onClick cancel button");
             Intent intent = new Intent();
