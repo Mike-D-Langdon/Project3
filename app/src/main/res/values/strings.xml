@@ -24,4 +24,6 @@
     <string name="createPost_header">Create new post</string>
     <string name="createPost_addImage">Add image</string>
     <string name="createPost_post">Post</string>
+    <string name="picture_representing_you">Picture representing you.</string>
+    <string name="bio_text">Add some info about yourself here.</string>
 </resources>
