@@ -15,7 +15,7 @@
         android:layout_marginTop="95dp"
         android:fontFamily="sans-serif"
         android:text="@string/app_name"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/yellow_300"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,9 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
             android:inputType="text"
-            android:hint="@string/reg_username" />
+            android:hint="@string/reg_username"
+            android:background="@color/yellow_100"
+            android:fontFamily="@font/open_sans"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +64,9 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
             android:inputType="textEmailAddress"
-            android:hint="@string/reg_email" />
+            android:hint="@string/reg_email"
+            android:background="@color/yellow_100"
+            android:fontFamily="@font/open_sans"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +88,9 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
             android:inputType="textPassword"
-            android:hint="@string/reg_password" />
+            android:hint="@string/reg_password"
+            android:background="@color/yellow_100"
+            android:fontFamily="@font/open_sans"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -93,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:backgroundTint="@color/teal_700"
+        app:backgroundTint="@color/button_background_color"
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:backgroundTint="@color/teal_700"
+        app:backgroundTint="@color/button_background_color"
         android:text="@android:string/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

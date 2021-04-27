@@ -43,7 +43,8 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:text="@string/createPost_addImage"
         app:layout_constraintStart_toStartOf="@+id/edit_createPost_body"
-        app:layout_constraintTop_toBottomOf="@+id/edit_createPost_body" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_createPost_body"
+        app:backgroundTint="@color/button_background_color"/>
 
     <Button
         android:id="@+id/button_createPost_post"
@@ -53,6 +54,7 @@
         android:layout_marginRight="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_medium"
         android:text="@string/createPost_post"
+        app:backgroundTint="@color/button_background_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
