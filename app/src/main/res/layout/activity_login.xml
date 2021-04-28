@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
+    android:background="@drawable/bgapp"
     app:barrierAllowsGoneWidgets="false"
     app:layout_constrainedHeight="true"
     app:layout_constrainedWidth="true">
@@ -16,7 +17,7 @@
         android:layout_marginTop="95dp"
         android:fontFamily="sans-serif"
         android:text="@string/app_name"
-        android:textColor="@color/yellow_300"
+        android:textColor="@color/gray_200"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
