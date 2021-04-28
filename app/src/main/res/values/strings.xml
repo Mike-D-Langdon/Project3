@@ -9,8 +9,7 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="compose">Compose</string>
-    <string name="chat">Chat</string>
-    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
     <string name="login">Login</string>
     <string name="avatar">Avatar</string>
     <string name="gallery_preview">Gallery Preview</string>
@@ -24,4 +23,12 @@
     <string name="createPost_header">Create new post</string>
     <string name="createPost_addImage">Add image</string>
     <string name="createPost_post">Post</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="change_avatar">Change Avatar</string>
+    <string name="display_name">Display Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="biography">Biography</string>
+    <string name="display_name_hint">Name seen by others</string>
+    <string name="biography_hint">Tell us something about yourself</string>
+    <string name="birthday_hint">Month/Day/Year</string>
 </resources>

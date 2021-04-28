@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:onClick="debug_addPost"
         android:id="@+id/button_debug_addPost"
-        android:text="#DEBUG# Add Post" />
+        android:text="#DEBUG# Add Post"
+        android:background="@color/yellow_300"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,6 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        android:text="#DEBUG# Create post" />
+        android:text="#DEBUG# Create post"
+        android:background="@color/yellow_300"/>
 
 </RelativeLayout>

@@ -16,7 +16,7 @@
         android:layout_marginTop="95dp"
         android:fontFamily="sans-serif"
         android:text="@string/app_name"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/yellow_300"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,8 +36,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/reg_email" />
+            android:background="@color/yellow_100"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/reg_email"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,8 +53,10 @@
             android:id="@+id/edit_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/reg_password" />
+            android:background="@color/yellow_100"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/reg_password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -60,9 +64,11 @@
         android:layout_width="98dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
+        android:fontFamily="@font/open_sans_bold"
         android:onClick="handleLogin"
         android:text="@string/login"
-        app:backgroundTint="@color/teal_700"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/button_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_password" />
@@ -72,9 +78,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:backgroundTint="@color/teal_700"
+        app:backgroundTint="@color/button_background_color"
+        android:fontFamily="@font/open_sans_bold"
         android:onClick="handle_signUp"
         android:text="@string/sign_up"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +96,7 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:text="@string/ui_or"
         android:textSize="18sp"
+        android:fontFamily="@font/open_sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
