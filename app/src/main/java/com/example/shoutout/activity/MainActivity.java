@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shoutout.R;
 import com.example.shoutout.activity.fragment.PostFragment;
 import com.example.shoutout.db.ImagesRepository;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Random;
@@ -25,12 +26,16 @@ public class MainActivity extends AppCompatActivity {
 
     private Random rand;
 
+    private BottomNavigationView nav;
     private Button btn_debug_createPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        nav = findViewById(R.id.bottomNavigation);
+
         rand = new Random();
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
@@ -38,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        nav.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.action_compose) {
+                Intent intent = new Intent(this, CreatePostActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            return false;
+        });
 
         btn_debug_createPost = findViewById(R.id.button_main_debugCreatePost);
         btn_debug_createPost.setOnClickListener(v -> {
@@ -69,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         ImagesRepository.getInstance().getUri("1920x1080test.jpg").addOnSuccessListener(testBg -> {
             ImagesRepository.getInstance().getUri("avatartest.png").addOnSuccessListener(avatar -> {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.layout_timeline_linear, PostFragment.newInstance(avatar.toString(), "My Display Name", "mycoolusername", "whaddup youtube gang its ya boi", testBg.toString(), rand.nextInt(10), rand.nextInt(100), rand.nextInt(100)), UUID.randomUUID().toString())
+                        .add(R.id.layout_timeline_linear, PostFragment.newInstance(avatar.getEncodedPath(), "My Display Name", "mycoolusername", "whaddup youtube gang its ya boi", testBg.getEncodedPath(), rand.nextInt(10), rand.nextInt(100), rand.nextInt(100)), UUID.randomUUID().toString())
                         .addToBackStack(null)
                         .commit();
             });

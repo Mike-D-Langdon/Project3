@@ -82,11 +82,11 @@ public class PostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getView() != null) {
-            Picasso.get().load(Uri.parse(avatarUrl)).into(getView().<ImageView>findViewById(R.id.image_post_avatar));
+            Picasso.get().load(Uri.parse(avatarUrl)).fit().centerCrop().into(getView().<ImageView>findViewById(R.id.image_post_avatar));
             getView().<TextView>findViewById(R.id.text_post_displayName).setText(displayName);
             getView().<TextView>findViewById(R.id.text_post_username).setText("@" + username);
             getView().<TextView>findViewById(R.id.text_post_body).setText(body);
-            Picasso.get().load(Uri.parse(galleryPreviewUrl)).into(getView().<ImageView>findViewById(R.id.image_post_galleryPreview));
+            Picasso.get().load(Uri.parse(galleryPreviewUrl)).fit().centerCrop().into(getView().<ImageView>findViewById(R.id.image_post_galleryPreview));
             getView().<TextView>findViewById(R.id.text_post_galleryCount).setText(String.format(Locale.ENGLISH, "%d", galleryCount));
             getView().<TextView>findViewById(R.id.text_post_likeCount).setText(String.format(Locale.ENGLISH, "%d", likeCount));
             getView().<TextView>findViewById(R.id.text_post_commentCount).setText(String.format(Locale.ENGLISH, "%d", commentCount));

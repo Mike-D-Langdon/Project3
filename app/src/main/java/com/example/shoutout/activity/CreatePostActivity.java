@@ -1,22 +1,22 @@
 package com.example.shoutout.activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.shoutout.R;
 import com.example.shoutout.db.ImagesRepository;
 import com.example.shoutout.db.PostsRepository;
-import com.example.shoutout.util.StringUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -32,6 +32,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private TextView txt_imageFile;
     private ImageView img_preview;
     private Button btn_post;
+    private Button btn_cancel;
 
     private Uri imageUri;
 
@@ -45,6 +46,7 @@ public class CreatePostActivity extends AppCompatActivity {
         txt_imageFile = findViewById(R.id.text_createPost_imageFile);
         img_preview = findViewById(R.id.image_createPost_preview);
         btn_post = findViewById(R.id.button_createPost_post);
+        btn_cancel = findViewById(R.id.button_createPost_cancel);
         imageUri = null;
 
         btn_addImage.setOnClickListener(v -> {
@@ -88,6 +90,12 @@ public class CreatePostActivity extends AppCompatActivity {
             }
         });
 
+        btn_cancel.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
     }
 
     @Override
@@ -96,12 +104,15 @@ public class CreatePostActivity extends AppCompatActivity {
         if (requestCode == REQ_GALLERY) {
             if (resultCode == RESULT_OK) {
                 imageUri = data.getData();
-                txt_imageFile.setText(imageUri.getLastPathSegment());
-                Picasso.get().load(imageUri).into(img_preview);
+                // can't get the original file name from the Uri
+                //txt_imageFile.setText(imageUri.getLastPathSegment());
+                Picasso.get().load(imageUri).fit().centerInside().into(img_preview);
+                img_preview.setVisibility(View.VISIBLE);
             } else {
                 imageUri = null;
-                txt_imageFile.setText("");
+                //txt_imageFile.setText("");
                 img_preview.setImageDrawable(null);
+                img_preview.setVisibility(View.INVISIBLE);
             }
         }
     }

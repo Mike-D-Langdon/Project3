@@ -12,6 +12,7 @@
         android:layout_width="@dimen/imgsize_avatar"
         android:layout_height="@dimen/imgsize_avatar"
         android:contentDescription="@string/avatar"
+        android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />

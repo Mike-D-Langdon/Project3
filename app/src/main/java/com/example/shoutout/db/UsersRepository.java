@@ -17,13 +17,14 @@ import java.util.List;
 public class UsersRepository extends BaseFirestoreRepository {
 
     private static final String TAG = "UserRepo";
+    private static final String DEFAULT_AVATAR = "avatartest.png";
 
     public UsersRepository(CollectionReference col) {
         super(col);
     }
 
     public Task<Boolean> registerNewUser(String id, String username, String email) {
-        final User user = new User(id, username, email);
+        final User user = new User(DEFAULT_AVATAR, id, username, email);
         return isUsernameAvailable(user.getUsername()).onSuccessTask(usernameAvailable -> {
             if (usernameAvailable) {
                 return isEmailAvailable(user.getEmail()).onSuccessTask(emailAvailable -> {
@@ -194,6 +195,7 @@ public class UsersRepository extends BaseFirestoreRepository {
     }
 
     private static class UserDbo {
+        public String avatar;
         public String username;
         public String username_lc;
         public String email;
@@ -209,6 +211,7 @@ public class UsersRepository extends BaseFirestoreRepository {
         public List<String> followers;
 
         public UserDbo(User user) {
+            avatar = user.getAvatarUri();
             username = user.getUsername();
             username_lc = username.toLowerCase();
             email = user.getEmail();
@@ -234,9 +237,9 @@ public class UsersRepository extends BaseFirestoreRepository {
     private static User fromDbo(DocumentSnapshot ds) {
         try {
             UserDbo dbo = ds.toObject(UserDbo.class);
-            return new User(ds.getId(), dbo.username, dbo.email, dbo.displayName, dbo.biography,
-                    dbo.created, dbo.birthday, dbo.permissionLevel, dbo.following, dbo.likes,
-                    dbo.followers
+            return new User(ds.getId(), dbo.avatar, dbo.username, dbo.email, dbo.displayName,
+                    dbo.biography, dbo.created, dbo.birthday, dbo.permissionLevel, dbo.following,
+                    dbo.likes, dbo.followers
             );
         } catch (Exception e) {
             Log.w(TAG, "Could not parse user", e);

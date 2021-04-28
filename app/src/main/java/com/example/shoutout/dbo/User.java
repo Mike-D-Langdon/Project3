@@ -7,6 +7,7 @@ import java.util.List;
 public class User {
 
     private String id;
+    private String avatarUri;
     private String username;
     private String email;
     private String displayName;
@@ -18,10 +19,11 @@ public class User {
     private List<String> likes;
     private List<String> followers;
 
-    public User(String id, String username, String email, String displayName, String biography,
-                Date created, Date birthday, int permissionLevel, List<String> following,
-                List<String> likes, List<String> followers) {
+    public User(String id, String avatarUri, String username, String email, String displayName,
+                String biography, Date created, Date birthday, int permissionLevel,
+                List<String> following, List<String> likes, List<String> followers) {
         this.id = id;
+        this.avatarUri = avatarUri;
         this.username = username;
         this.email = email;
         this.displayName = displayName;
@@ -34,9 +36,9 @@ public class User {
         this.followers = followers;
     }
 
-    public User(String id, String username, String email) {
-        this(id, username, email, username, "", new Date(), null, 0, Collections.emptyList(),
-                Collections.emptyList(), Collections.emptyList());
+    public User(String id, String avatarUri, String username, String email) {
+        this(id, avatarUri, username, email, username, "", new Date(), null, 0,
+                Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
     }
 
     public User() {
@@ -48,6 +50,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAvatarUri() {
+        return avatarUri;
+    }
+
+    public void setAvatarUri(String avatarUri) {
+        this.avatarUri = avatarUri;
     }
 
     public String getUsername() {
