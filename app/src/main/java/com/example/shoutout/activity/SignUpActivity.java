@@ -14,16 +14,53 @@ import com.example.shoutout.db.UsersRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Activity to allow the end user to create a new account. This allows the end user to specify the
+ * following for their new account:
+ * <ul>
+ *     <li>Username</li>
+ *     <li>Email address</li>
+ *     <li>Password</li>
+ * </ul>
+ * The email address and password are only used to log in and are handled entirely by Firebase Auth.
+ * The newly-created user's display name is set to be the same as the username. Important to note
+ * is that this doesn't send an email confirmation like a production-level application would. So
+ * you can effectively use any email you want.
+ *
+ * @author Corneilious Eanes, Margaret Hu
+ * @since April 29, 2021
+ */
 public class SignUpActivity extends AppCompatActivity {
 
+    /**
+     * Logging tag
+     */
     private  static final String TAG = SignUpActivity.class.getSimpleName();
-
+    /**
+     * Extra ID for whether the registration was successful
+     */
     public static final String EXTRA_REGISTERED = "registered";
 
+    /**
+     * Button that allows the end user to officially sign up for a new account immediately
+     */
     private Button btn_signUp;
+    /**
+     * Button that allows the end user to cancel out of creating a new account and directs them
+     * back to the login activity
+     */
     private Button btn_cancel;
+    /**
+     * Text field that allows the end user to set their starting username
+     */
     private EditText et_username;
+    /**
+     * Text field that allows the end user to set their email address for authentication
+     */
     private EditText et_email;
+    /**
+     * Text field that allows the end user to set their password for authentication
+     */
     private EditText et_password;
 
     @Override
@@ -44,6 +81,9 @@ public class SignUpActivity extends AppCompatActivity {
             final String email = et_email.getText().toString();
             final String password = et_password.getText().toString();
 
+            // first check if both the username and email address aren't being used by another
+            // account. firebase database doesn't allow for OR-like request, so we have to use
+            // two different requests, which is dumb unless im getting that completely wrong
             UsersRepository.getInstance().isUsernameAvailable(username).addOnSuccessListener(usernameAvailable -> {
                 if (usernameAvailable) {
                     Log.d(TAG, "Username available for: " + username);
@@ -57,6 +97,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         Intent intent = new Intent();
                                         if (createTask.isSuccessful()) {
                                             Log.d(TAG, "User officially signed up");
+                                            // set the user as being officially registered and
+                                            // redirect back to the login activity
                                             intent.putExtra(EXTRA_REGISTERED, true);
                                             AuthResult result = createTask.getResult();
                                             UsersRepository.getInstance()
@@ -85,6 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
             });
         });
 
+        // allow the end user to cancel out of creating a new account
         btn_cancel.setOnClickListener(v -> {
             Log.d(TAG, "onClick cancel button");
             Intent intent = new Intent();

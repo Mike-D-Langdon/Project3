@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 import com.example.shoutout.R;
 
+/**
+ * @author Michael Langdon
+ * @since April 29, 2021
+ */
 public class ProfilePageActivity extends AppCompatActivity {
 
     @Override

@@ -4,6 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * A collection of unit test cases for the {@link StringUtil} utility class.
+ *
+ * @author Corneilious Eanes
+ * @since April 29, 2021
+ */
 public class StringUtilTest {
 
     @Test

@@ -2,5 +2,6 @@ src/main/res/drawable*/
     ic_comment.png,
     ic_like.png,
     ic_like2.png,
-    ic_share.png :
+    ic_share.png,
+	ic_user :
 Icon made by Freepik from www.flaticon.com

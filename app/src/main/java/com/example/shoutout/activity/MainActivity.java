@@ -23,15 +23,45 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Activity that is the core of the entire application. Allows the end user to navigate between
+ * several fragments and screens, including
+ * <ul>
+ *     <li>Viewing their timeline</li>
+ *     <li>Searching for users</li>
+ *     <li>Composing a new post</li>
+ *     <li>Viewing their profile</li>
+ *     <li>Modifying their settings</li>
+ * </ul>
+ * Also features a logout button that will sign the user out and redirect them to the signin
+ * activity.
+ *
+ * @author Corneilious Eanes, Margaret Hu
+ * @since April 29, 2021
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Logging tag
+     */
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private Random rand;
-
-    // used for viewing a user's profile. null = visit the logged in user's profile
+    /**
+     * Reference for a user to be featured in a {@link ProfileFragment}. If the internal reference
+     * is null, then the fragment will feature the logged-in local user. This is used when an
+     * internal fragment calls
+     * {@link com.example.shoutout.activity.fragment.UserSearchResultFragment.OnProfileClickListener},
+     * and the internal reference is set back to null once used.
+     */
     private AtomicReference<User> viewUserRef;
+    /**
+     * Bottom navigation menu. This allows the end user to perform all major actions in the app.
+     * @see MainActivity
+     */
     private BottomNavigationView nav;
+    /**
+     * The layout where all action-based fragments are loaded into
+     */
     private LinearLayout layout_main;
 
     @Override
@@ -43,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
         nav = findViewById(R.id.bottomNavigation);
         layout_main = findViewById(R.id.layout_main);
 
-        rand = new Random();
-
+        // redirect the end user to the login activity if they're not logged in
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -54,18 +83,29 @@ public class MainActivity extends AppCompatActivity {
 
         nav.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.action_compose) {
+                // the only action to warrant a new activity. better idea would be to incorporate
+                // this as its own fragment
                 Intent intent = new Intent(this, CreatePostActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
+                // for all other actions, they use some sort of fragment that is embedded into
+                // layout_main, so all views inside of layout_main must be removed first
             } else if (item.getItemId() == R.id.action_profile) {
                 layout_main.removeAllViews();
+                // the firebase auth user's UID is the same as the ID used in User and UsersRepository
                 UsersRepository.getInstance().get(auth.getUid()).addOnSuccessListener(loggedInUser -> {
+                    // determine which profile to view. if the internal reference is null, then
+                    // view the profile of the logged-in local user
+                    // in effect, if the end user simply clicks on the profile icon, then the
+                    // internal reference will be null, and the activity will direct them to their
+                    // own profile
                     User viewUser = viewUserRef.get();
                     if (viewUser == null) {
                         viewUser = loggedInUser;
                     }
                     ProfileFragment frag = ProfileFragment.newInstance(viewUser, loggedInUser);
+                    // remember to set the post liked listener
                     frag.setIsPostLikedListener(postId -> UsersRepository.getInstance().get(auth.getUid()).continueWith(getUserTask -> {
                         if (getUserTask.isSuccessful()) {
                             User user = getUserTask.getResult();
@@ -79,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                             .add(R.id.layout_main, frag)
                             .addToBackStack(null)
                             .commit();
+                    // reset the internal reference
                     viewUserRef.set(null);
                 });
                 return true;
@@ -94,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.action_search) {
                 layout_main.removeAllViews();
                 SearchFragment frag = SearchFragment.newInstance();
+                // don't forget about the profile click listener. this allows the end user to view
+                // the profiles of non-followed users and potentially follow them
                 frag.setOnProfileClickListener(user -> {
                     viewUserRef.set(user);
                     nav.setSelectedItemId(R.id.action_profile);
@@ -107,21 +150,20 @@ public class MainActivity extends AppCompatActivity {
                 layout_main.removeAllViews();
                 UsersRepository.getInstance().get(auth.getUid()).addOnSuccessListener(loggedInUser -> {
                     TimelineFragment frag = TimelineFragment.newInstance();
+                    // need both like and profile click listeners for this one
                     frag.setOnProfileClickListener(user -> {
                         viewUserRef.set(user);
                         nav.setSelectedItemId(R.id.action_profile);
                     });
-                    frag.setIsPostLikedListener(postId -> {
-                        return UsersRepository.getInstance().get(auth.getUid()).continueWith(getUserTask -> {
-                           if (getUserTask.isSuccessful()) {
-                               User user = getUserTask.getResult();
-                               if (user != null) {
-                                   return user.getLikes().contains(postId);
-                               }
+                    frag.setIsPostLikedListener(postId -> UsersRepository.getInstance().get(auth.getUid()).continueWith(getUserTask -> {
+                       if (getUserTask.isSuccessful()) {
+                           User user = getUserTask.getResult();
+                           if (user != null) {
+                               return user.getLikes().contains(postId);
                            }
-                           return false;
-                        });
-                    });
+                       }
+                       return false;
+                    }));
                     getSupportFragmentManager().beginTransaction()
                             .add(R.id.layout_main, frag)
                             .addToBackStack(null)
@@ -129,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 return true;
             }
+            // if none of the above actions were triggered, then don't update the selection
             return false;
         });
         nav.setSelectedItemId(R.id.action_home);
@@ -143,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // log out the user if they click the appropriate button
         if (item.getItemId() == R.id.action_logout) {
             Toast.makeText(this, "Successfully logged out", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();

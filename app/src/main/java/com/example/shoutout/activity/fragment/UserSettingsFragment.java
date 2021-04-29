@@ -32,25 +32,79 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Fragment that allows the end user to update several properties of their user on the database
+ * server. The properties you can change are of the following:
+ * <ul>
+ *     <li>Avatar</li>
+ *     <li>Display name</li>
+ *     <li>Birthday</li>
+ *     <li>Biography</li>
+ * </ul>
+ *
+ * @author Margaret Hu, Corneilious Eanes
+ * @since April 29, 2021
+ */
 public class UserSettingsFragment extends Fragment {
 
+    /**
+     * Logging tag
+     */
     private static final String TAG = UserSettingsFragment.class.getSimpleName();
+    /**
+     * Argument ID of the user object
+     */
     private static final String ARG_USER = "user";
+    /**
+     * Request ID of the image selection activity for choosing an avatar
+     */
     private static final int REQUEST_SELECT_AVATAR = 0;
 
     public UserSettingsFragment() {
     }
 
+    /**
+     * The local user whose properties are displayed and thus malleable through this fragment
+     */
     private User user;
+    /**
+     * A temporary URI pointing to a local image if the user wants to change their avatar
+     */
     private Uri tempAvatarLocalUri;
 
+    /**
+     * Image view that displays the user's avatar
+     */
     private ImageView img_avatar;
+    /**
+     * Button that allows the end user to change their avatar
+     */
     private Button btn_changeAvatar;
+    /**
+     * Text field that allows the end user to change their display name
+     */
     private EditText et_displayName;
+    /**
+     * Text field that allows the end user to change their birthday
+     */
     private EditText et_birthday;
+    /**
+     * Text field that allows the end user to change teir biography
+     */
     private EditText et_biography;
+    /**
+     * Button that allows the end user to apply their changes and submit a request to the server
+     * to update their properties
+     */
     private Button btn_saveChanges;
 
+    /**
+     * Create a new instance of this fragment
+     * @param user The user whose settings the end user wants to change, which should correspond
+     *             to their own local user
+     * @return An instance of this fragment
+     * @see UserSearchResultFragment
+     */
     public static UserSettingsFragment newInstance(User user) {
         UserSettingsFragment frag = new UserSettingsFragment();
         Bundle args = new Bundle();
@@ -59,6 +113,11 @@ public class UserSettingsFragment extends Fragment {
         return frag;
     }
 
+    /**
+     * Checks to see if the save button should be enabled, and thus allow the user to submit
+     * changes. This is only disabled if the properties stored in the local user are the same
+     * as the values in the corresponding fields in this fragment.
+     */
     private void checkEnableSaveButton() {
         boolean shouldEnable = false;
         if (user != null) {
@@ -129,11 +188,13 @@ public class UserSettingsFragment extends Fragment {
                     checkEnableSaveButton();
                 }
             };
-
+            // allow the checkEnableSaveButton() method to run whenever the end user types anything
+            // into the text fields
             et_displayName.addTextChangedListener(textWatcher);
             et_birthday.addTextChangedListener(textWatcher);
             et_biography.addTextChangedListener(textWatcher);
 
+            // start a new android-provided activity to select a picture from the device
             btn_changeAvatar.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
@@ -141,7 +202,10 @@ public class UserSettingsFragment extends Fragment {
             });
 
             btn_saveChanges.setOnClickListener(v -> {
+                // if anything is altered, after the request to the database server is complete,
+                // check if the save changes button needs to be disabled
                 String newDisplayName = et_displayName.getText().toString();
+                // only update the display name if the corresponding text field's value is different
                 if (!user.getDisplayName().equals(newDisplayName)) {
                     String displayName = et_displayName.getText().toString();
                     if (displayName.isEmpty()) {
@@ -194,6 +258,9 @@ public class UserSettingsFragment extends Fragment {
                             });
                 }
                 if (tempAvatarLocalUri != null) {
+                    // this tempAvatarLocalUri is not null, then that means the user selected a
+                    // picture to be used as their new avatar. a more competently-designed app
+                    // would probably re-size or compress the image to something sensible
                     ImagesRepository.getInstance().upload(tempAvatarLocalUri).addOnCompleteListener(uploadAvatarTask -> {
                         if (uploadAvatarTask.isSuccessful()) {
                             final String path = uploadAvatarTask.getResult();
@@ -222,12 +289,17 @@ public class UserSettingsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // only care about selecting a new avatar
         if (requestCode == REQUEST_SELECT_AVATAR) {
             if (resultCode == RESULT_OK) {
+                // set this so that when the button to apply changes is clicked, it can upload the
+                // image onto the storage server
                 tempAvatarLocalUri = data.getData();
                 Picasso.get().load(tempAvatarLocalUri).into(img_avatar);
                 btn_saveChanges.setEnabled(true);
             } else {
+                // if cancelled, assume that means that the end user does not want to change their
+                // avatar
                 tempAvatarLocalUri = null;
                 ImagesRepository.getInstance().getUri(user.getAvatarUri()).addOnSuccessListener(uri -> {
                     Picasso.get().load(uri).into(img_avatar);
