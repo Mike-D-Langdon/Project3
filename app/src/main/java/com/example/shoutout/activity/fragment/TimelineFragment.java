@@ -234,7 +234,7 @@ public class TimelineFragment extends Fragment {
                         // first, keep track of a list of the tasks that retrieve users
                         List<Task<User>> loadPostsTasks = new ArrayList<>();
                         // next, keep track of all fragments that are created in the process
-                        List<PostFragment> frags = new ArrayList<>(newPosts.size());
+                        Map<Post, PostFragment> frags = new HashMap<>(newPosts.size());
                         for (Post post : newPosts) {
                             // remember, getUserAsync also works with the user cache (usersPool),
                             // so these tasks should potentially be trivial, and thus, fast
@@ -246,7 +246,7 @@ public class TimelineFragment extends Fragment {
                                        frag.setOnProfileClickListener(onProfileClickListener);
                                        frag.setIsPostLikedListener(isPostLikedListener);
                                        // don't actually add the fragment to the timeline yet
-                                       frags.add(frag);
+                                       frags.put(post, frag);
                                    } else {
                                        Log.d(TAG, String.format("Invalid user id (%s) from post (%s)", post.getUser(), post.getId()));
                                    }
@@ -260,9 +260,10 @@ public class TimelineFragment extends Fragment {
                         Tasks.whenAllComplete(loadPostsTasks).addOnCompleteListener(task -> {
                             // make sure to do an inverse comparison for reverse, and thus
                             // descending, order
-                            Collections.sort(frags, (o1, o2) -> o2.getPost().getPosted().compareTo(o1.getPost().getPosted()));
-                            for (PostFragment frag : frags) {
-                                transaction.add(R.id.layout_timeline_posts, frag).addToBackStack(null);
+                            List<Post> sortedPosts = new ArrayList<>(frags.keySet());
+                            Collections.sort(sortedPosts, (o1, o2) -> o2.getPosted().compareTo(o1.getPosted()));
+                            for (Post post : sortedPosts) {
+                                transaction.add(R.id.layout_timeline_posts, frags.get(post)).addToBackStack(null);
                             }
                             // finally commit the change
                             transaction.commit();
