@@ -1,29 +1,28 @@
 package com.example.shoutout.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateTimeUtil {
 
-    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+    private static final SimpleDateFormat
+            SIMPLE_DATE_FORMAT = new SimpleDateFormat("M/d/yyyy"),
+            LONGER_DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 
-    public static long formatDateTime(LocalDateTime dt) {
-        return dt.toEpochSecond(ZONE_OFFSET);
+    public static Date parseSimpleDate(String str) {
+        try {
+            return SIMPLE_DATE_FORMAT.parse(str);
+        } catch (ParseException ignored) {}
+        return null;
     }
 
-    public static LocalDateTime parseDateTime(long epochSecond) {
-        return LocalDateTime.ofEpochSecond(epochSecond, 0, ZONE_OFFSET);
+    public static String formatSimpleDate(Date date) {
+        return SIMPLE_DATE_FORMAT.format(date);
     }
 
-    public static String formatDate(LocalDate date) {
-        return DATE_FORMATTER.format(date);
-    }
-
-    public static LocalDate parseDate(String isoDateStr) {
-        return LocalDate.from(DATE_FORMATTER.parse(isoDateStr));
+    public static String formatLongerDate(Date date) {
+        return LONGER_DATE_FORMAT.format(date);
     }
 
 }

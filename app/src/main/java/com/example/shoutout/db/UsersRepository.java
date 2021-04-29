@@ -24,7 +24,7 @@ public class UsersRepository extends BaseFirestoreRepository {
     }
 
     public Task<Boolean> registerNewUser(String id, String username, String email) {
-        final User user = new User(DEFAULT_AVATAR, id, username, email);
+        final User user = new User(id, DEFAULT_AVATAR, username, email);
         return isUsernameAvailable(user.getUsername()).onSuccessTask(usernameAvailable -> {
             if (usernameAvailable) {
                 return isEmailAvailable(user.getEmail()).onSuccessTask(emailAvailable -> {
@@ -65,6 +65,18 @@ public class UsersRepository extends BaseFirestoreRepository {
                 .update("biography", newBiograpy);
     }
 
+    public Task<Void> updateBirthday(String id, Date newBirthday) {
+        return getCollection()
+                .document(id)
+                .update("birthday", newBirthday);
+    }
+
+    public Task<Void> updateAvatar(String id, String newAvatarPath) {
+        return getCollection()
+                .document(id)
+                .update("avatar", newAvatarPath);
+    }
+
     public Task<Boolean> follow(String followingUserId, String followedUserId) {
         // following = users that this user follows
         // followers = users that follow this user
@@ -93,7 +105,7 @@ public class UsersRepository extends BaseFirestoreRepository {
         return get(unfollowingUserId).onSuccessTask(unfollowingUser -> {
             if (unfollowingUser.getFollowing().remove(unfollowedUserId)) {
                 return getCollection().document(unfollowingUserId).update("following", unfollowingUser.getFollowing()).onSuccessTask(dummy -> get(unfollowedUserId).onSuccessTask(unfollowedUser -> {
-                   if (unfollowedUser.getFollowing().remove(unfollowingUserId)) {
+                   if (unfollowedUser.getFollowers().remove(unfollowingUserId)) {
                        return getCollection().document(unfollowedUserId).update("followers", unfollowedUser.getFollowers()).continueWith(t -> true);
                    } else {
                        Log.d(TAG, "Attempted to remove " + unfollowingUserId + " from " + unfollowedUserId + "'s followers list, but they're not there");

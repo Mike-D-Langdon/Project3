@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoutout">
-        <activity android:name=".activity.CreatePostActivity"></activity>
+        <activity android:name=".activity.ProfilePageActivity" />
+        <activity android:name=".activity.CreatePostActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.MainActivity">
@@ -21,8 +22,7 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="preloaded_fonts"/>
+        <!--<meta-data android:name="preloaded_fonts" />-->
     </application>
 
 </manifest>

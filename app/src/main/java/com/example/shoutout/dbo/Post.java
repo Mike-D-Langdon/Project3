@@ -2,10 +2,11 @@ package com.example.shoutout.dbo;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Post {
+public class Post implements Serializable {
 
     private String id;
     private String parent;

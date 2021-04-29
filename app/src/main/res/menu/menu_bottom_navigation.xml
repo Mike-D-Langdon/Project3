@@ -18,6 +18,10 @@
         android:title="@string/compose"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_profile"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/view_profile" />
+    <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_outline_settings_30"
         android:title="@string/settings"

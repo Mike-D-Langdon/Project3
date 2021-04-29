@@ -4,17 +4,16 @@ import android.util.Log;
 
 import com.example.shoutout.dbo.Post;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class PostsRepository extends BaseFirestoreRepository {
 
@@ -45,11 +44,11 @@ public class PostsRepository extends BaseFirestoreRepository {
                 .set(new Post(parent, user, text, images, new Date(), 0, 0));
     }
 
-    public Task<List<Post>> getPostsFromUser(String userId, int limit, Date after) {
+    public Task<List<Post>> getPostsFromUser(String userId, int limit, Date before) {
         return getCollection()
                 .whereEqualTo("user", userId)
-                .orderBy("posted")
-                .startAfter(after)
+                .orderBy("posted", Query.Direction.DESCENDING)
+                .startAfter(before)
                 .limit(limit)
                 .get()
                 .continueWith(task -> {
@@ -60,10 +59,14 @@ public class PostsRepository extends BaseFirestoreRepository {
                 });
     }
 
+    public Task<List<Post>> getPostsFromUser(String userId, int limit) {
+        return getPostsFromUser(userId, limit, new Date());
+    }
+
     public Task<List<Post>> getPostsFromUsers(List<String> users, int limit, Date after) {
         return getCollection()
                 .whereIn("user", users)
-                .orderBy("posted")
+                .orderBy("posted", Query.Direction.DESCENDING)
                 .startAfter(after)
                 .limit(limit)
                 .get()

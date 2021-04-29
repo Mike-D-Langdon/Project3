@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.fragment.ProfileFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_postText">
+
+                <ImageView
+                    android:id="@+id/image_profile_avatar2"
+                    android:layout_width="@dimen/imgsize_avatar"
+                    android:layout_height="@dimen/imgsize_avatar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/text_profile_displayName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="Display name"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_profile_avatar2"
+                    app:layout_constraintTop_toTopOf="@+id/image_profile_avatar2" />
+
+                <TextView
+                    android:id="@+id/text_profile_username2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="username"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/text_profile_displayName2"
+                    app:layout_constraintTop_toBottomOf="@+id/text_profile_displayName2" />
+
+                <TextView
+                    android:id="@+id/text_profile_birthday2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="birthday"
+                    app:layout_constraintStart_toStartOf="@+id/text_profile_username2"
+                    app:layout_constraintTop_toBottomOf="@+id/text_profile_username2" />
+
+                <TextView
+                    android:id="@+id/text_profile_biography2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Biography goes here"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_profile_followerCount" />
+
+                <Button
+                    android:id="@+id/button_profile_follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/follow"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_profile_birthday2"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_profile_followerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="10 Followers"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_profile_avatar2" />
+
+                <TextView
+                    android:id="@+id/text_profile_followingCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:text="10 Following"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_profile_followerCount"
+                    app:layout_constraintEnd_toStartOf="@+id/text_profile_followerCount"
+                    app:layout_constraintTop_toTopOf="@+id/text_profile_followerCount" />
+
+                <TextView
+                    android:id="@+id/text_profile_joined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Account created April 10, 2021"
+                    app:layout_constraintStart_toStartOf="@+id/image_profile_avatar2"
+                    app:layout_constraintTop_toBottomOf="@+id/image_profile_avatar2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/text_profile_noPosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="This user hasn't made any posts" />
+
+            <LinearLayout
+                android:id="@+id/layout_profile_timeline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_profile_morePosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Load more posts" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
