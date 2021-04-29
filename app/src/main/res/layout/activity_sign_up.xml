@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
+    android:background="@drawable/bgapp"
     app:barrierAllowsGoneWidgets="false"
     app:layout_constrainedHeight="true"
     app:layout_constrainedWidth="true">
