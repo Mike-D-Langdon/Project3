@@ -10,7 +10,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search for user"
+        android:text="@string/searchUser"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,8 @@
         android:id="@+id/button_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/search"
+        app:backgroundTint="@color/button_background_color"
         app:layout_constraintBottom_toBottomOf="@+id/edit_search_query"
         app:layout_constraintStart_toEndOf="@+id/edit_search_query"
         app:layout_constraintTop_toTopOf="@+id/edit_search_query" />

@@ -39,7 +39,8 @@
                 android:drawableRight="@drawable/ic_baseline_add_photo_alternate_24"
                 android:drawablePadding="2dp"
                 android:text="@string/change_avatar"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:backgroundTint="@color/button_background_color" />
 
             <TextView
                 android:id="@+id/tv_display_name"
@@ -125,7 +126,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/save_changes" />
+                android:text="@string/save_changes"
+                app:backgroundTint="@color/button_background_color" />
 
         </LinearLayout>
     </ScrollView>
