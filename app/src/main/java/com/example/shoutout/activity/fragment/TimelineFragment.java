@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class TimelineFragment extends Fragment {
@@ -42,13 +41,14 @@ public class TimelineFragment extends Fragment {
     private AtomicReference<User> localUserRef;
     private Map<String, User> usersPool;
     private List<Post> posts;
-    private UserSearchResultFragment.OnProfileClickListener listener;
+    private UserSearchResultFragment.OnProfileClickListener onProfileClickListener;
 
     private LinearLayout layout_posts;
     private Button button_morePosts;
     private TextView text_notFollowing;
     private TextView text_noPosts;
     private TextView text_loading;
+    private PostFragment.IsPostLikedListener isPostLikedListener;
 
     public static TimelineFragment newInstance() {
         TimelineFragment fragment = new TimelineFragment();
@@ -56,7 +56,11 @@ public class TimelineFragment extends Fragment {
     }
 
     public void setOnProfileClickListener(UserSearchResultFragment.OnProfileClickListener listener) {
-        this.listener = listener;
+        onProfileClickListener = listener;
+    }
+
+    public void setIsPostLikedListener(PostFragment.IsPostLikedListener listener) {
+        isPostLikedListener = listener;
     }
 
     @Override
@@ -146,7 +150,8 @@ public class TimelineFragment extends Fragment {
                                    User user = task.getResult();
                                    if (user != null) {
                                        PostFragment frag = PostFragment.newInstance(user, post);
-                                       frag.setOnProfileClickListener(listener);
+                                       frag.setOnProfileClickListener(onProfileClickListener);
+                                       frag.setIsPostLikedListener(isPostLikedListener);
                                        transaction.add(R.id.layout_timeline_posts, frag)
                                                .addToBackStack(null);
                                    } else {

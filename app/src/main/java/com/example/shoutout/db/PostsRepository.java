@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.shoutout.dbo.Post;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -76,6 +77,30 @@ public class PostsRepository extends BaseFirestoreRepository {
                     }
                     return Collections.emptyList();
                 });
+    }
+
+    public Task<Boolean> addLike(String postId) {
+        return get(postId).onSuccessTask(post -> {
+            if (post != null) {
+                return getCollection()
+                        .document(postId)
+                        .update("likes", post.getLikes() + 1)
+                        .continueWith(Task::isSuccessful);
+            }
+            return Tasks.forResult(false);
+        });
+    }
+
+    public Task<Boolean> removeLike(String postId) {
+        return get(postId).onSuccessTask(post -> {
+           if (post != null) {
+               return getCollection()
+                       .document(postId)
+                       .update("likes", post.getLikes() - 1)
+                       .continueWith(Task::isSuccessful);
+           }
+           return Tasks.forResult(false);
+        });
     }
 
     public Task<List<Post>> getPostsFromParent(String parent, int limit, Date after) {

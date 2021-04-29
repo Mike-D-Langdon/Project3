@@ -65,8 +65,18 @@ public class MainActivity extends AppCompatActivity {
                     if (viewUser == null) {
                         viewUser = loggedInUser;
                     }
+                    ProfileFragment frag = ProfileFragment.newInstance(viewUser, loggedInUser);
+                    frag.setIsPostLikedListener(postId -> UsersRepository.getInstance().get(auth.getUid()).continueWith(getUserTask -> {
+                        if (getUserTask.isSuccessful()) {
+                            User user = getUserTask.getResult();
+                            if (user != null) {
+                                return user.getLikes().contains(postId);
+                            }
+                        }
+                        return false;
+                    }));
                     getSupportFragmentManager().beginTransaction()
-                            .add(R.id.layout_main, ProfileFragment.newInstance(viewUser, loggedInUser))
+                            .add(R.id.layout_main, frag)
                             .addToBackStack(null)
                             .commit();
                     viewUserRef.set(null);
@@ -95,15 +105,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.action_home) {
                 layout_main.removeAllViews();
-                TimelineFragment frag = TimelineFragment.newInstance();
-                frag.setOnProfileClickListener(user -> {
-                    viewUserRef.set(user);
-                    nav.setSelectedItemId(R.id.action_profile);
+                UsersRepository.getInstance().get(auth.getUid()).addOnSuccessListener(loggedInUser -> {
+                    TimelineFragment frag = TimelineFragment.newInstance();
+                    frag.setOnProfileClickListener(user -> {
+                        viewUserRef.set(user);
+                        nav.setSelectedItemId(R.id.action_profile);
+                    });
+                    frag.setIsPostLikedListener(postId -> {
+                        return UsersRepository.getInstance().get(auth.getUid()).continueWith(getUserTask -> {
+                           if (getUserTask.isSuccessful()) {
+                               User user = getUserTask.getResult();
+                               if (user != null) {
+                                   return user.getLikes().contains(postId);
+                               }
+                           }
+                           return false;
+                        });
+                    });
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.layout_main, frag)
+                            .addToBackStack(null)
+                            .commit();
                 });
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.layout_main, frag)
-                        .addToBackStack(null)
-                        .commit();
                 return true;
             }
             return false;

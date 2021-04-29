@@ -54,6 +54,8 @@ public class ProfileFragment extends Fragment {
     private LinearLayout layout_timeline;
     private Button btn_morePosts;
 
+    private PostFragment.IsPostLikedListener isPostLikedListener;
+
     public ProfileFragment() {
     }
 
@@ -64,6 +66,10 @@ public class ProfileFragment extends Fragment {
         args.putSerializable(ARG_LOGGED_IN_USER, loggedInUser);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setIsPostLikedListener(PostFragment.IsPostLikedListener listener) {
+        isPostLikedListener = listener;
     }
 
     @Override
@@ -186,9 +192,9 @@ public class ProfileFragment extends Fragment {
                     timeline.addAll(posts);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     for (Post post : posts) {
-                        transaction.add(R.id.layout_profile_timeline, PostFragment.newInstance(
-                                viewedUser, post
-                        )).addToBackStack(null);
+                        PostFragment frag = PostFragment.newInstance(viewedUser, post);
+                        frag.setIsPostLikedListener(isPostLikedListener);
+                        transaction.add(R.id.layout_profile_timeline, frag).addToBackStack(null);
                     }
                     transaction.commit();
                 } else {
