@@ -79,6 +79,7 @@
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginRight="@dimen/margin_medium"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/createPost_addImage"
         android:scaleType="fitCenter"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"

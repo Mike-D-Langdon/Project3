@@ -41,4 +41,7 @@
     <string name="follow">Follow</string>
     <string name="loadMorePosts">Load more posts</string>
     <string name="searchUser">Search for user</string>
+    <string name="biography_text_here">Biography text here</string>
+    <string name="biography_goes_here">Biography goes here</string>
+    <string name="load_more_posts">Load more posts</string>
 </resources>
